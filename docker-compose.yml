@@ -1,0 +1,16 @@
+version: "3.9"
+   
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/usr/src/app
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        npm install
+        npm rebuild node-sass
+        npm run serve
+    ports:
+      - "8080:8080"
