@@ -6,50 +6,39 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm>
-                  <h1>Login</h1>
-                  <p class="text-muted">Sign In to your account</p>
+                <CForm @submit.prevent="handleSubmit" ref="login-form">
+                  <h1>Вход</h1>
+                  <p class="text-muted">Войдите в систему</p>
                   <CInput
-                    placeholder="Username"
+                    v-model.trim="email"
+                    placeholder="Электронная почта"
                     autocomplete="username email"
                   >
-                    <template #prepend-content><CIcon name="cil-user"/></template>
+                    <template #prepend-content
+                      ><CIcon name="cil-user"
+                    /></template>
                   </CInput>
                   <CInput
-                    placeholder="Password"
+                    v-model.trim="password"
+                    placeholder="Пароль"
                     type="password"
                     autocomplete="curent-password"
                   >
-                    <template #prepend-content><CIcon name="cil-lock-locked"/></template>
+                    <template #prepend-content
+                      ><CIcon name="cil-lock-locked"
+                    /></template>
                   </CInput>
                   <CRow>
                     <CCol col="6" class="text-left">
-                      <CButton color="primary" class="px-4">Login</CButton>
-                    </CCol>
-                    <CCol col="6" class="text-right">
-                      <CButton color="link" class="px-0">Forgot password?</CButton>
-                      <CButton color="link" class="d-lg-none">Register now!</CButton>
+                      <CButton
+                        color="primary"
+                        type="submit"
+                        class="px-4"
+                        >Войти</CButton
+                      >
                     </CCol>
                   </CRow>
                 </CForm>
-              </CCardBody>
-            </CCard>
-            <CCard
-              color="primary"
-              text-color="white"
-              class="text-center py-5 d-md-down-none"
-              body-wrapper
-            >
-              <CCardBody>
-                <h2>Sign up</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <CButton
-                  color="light"
-                  variant="outline"
-                  size="lg"
-                >
-                  Register Now!
-                </CButton>
               </CCardBody>
             </CCard>
           </CCardGroup>
@@ -60,7 +49,28 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
-  name: 'Login'
-}
+  name: "LoginForm",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  computed: {
+    ...mapState("account", ["status"]),
+  },
+  methods: {
+    ...mapActions("account", ["login"]),
+    handleSubmit(e) {
+      this.login({
+        username: this.email,
+        password: this.password,
+      });
+      return false;
+    },
+  },
+};
 </script>
