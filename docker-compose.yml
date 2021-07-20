@@ -1,16 +1,11 @@
-version: "3.9"
+version: "3.8"
    
 services:
-  web:
+  frontend:
     build: .
+    environment:
+      - VUE_APP_API_BASE_URL=http://localhost:8000
     volumes:
-      - ./:/usr/src/app
-    command: 
-      - /bin/bash
-      - -c
-      - |
-        npm install
-        npm rebuild node-sass
-        npm run serve
+      - ./:/app/src
     ports:
       - "8080:8080"
